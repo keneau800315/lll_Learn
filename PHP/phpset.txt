@@ -1,0 +1,19 @@
+網路伺服器設定步驟
+
+1.使用IIS(Internet Information Server):
+控制台>程式集>開啟或關閉Windows 功能>internet information services>world wide web 服務>應用程式開發功能>CGI(勾選):CGI可以讓一個用戶端，從網頁瀏覽器向伺服器上的程式請求資料
+目前僅能讀取html檔案
+
+2.設定php:
+a.下載程式https://windows.php.net/download/ 
+b.開啟IIS
+c.處理常式對應
+d.新增模組對應，要求路徑:*.php，模組:FastCgiModule，執行檔:php-cgi.exe，名稱:隨便取
+e.複製php解壓縮檔案內的php.ini-development成php.ini每次開啟php-cgi時會去讀php.ini
+修改php.ini
+extension=pdo_mysql  
+extension=mbstring  #中文字要用
+extension_dir = "C:\php-7.3.6-nts-Win32-VC15-x64\ext"
+f.設定完需重新啟動，可以啟用php程式
+
+3.最後將我們的檔案放置於預設路徑C:\inetpub\wwwroot下，別人就可以透過使用本機電腦(servive)ip加上檔案名稱去找到該網頁 

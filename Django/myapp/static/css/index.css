@@ -1,0 +1,55 @@
+@charset "UTF-8";
+/**
+ * 
+ * @authors Your Name (you@example.org)
+ * @date    2019-07-13 14:12:19
+ * @version $Id$
+ */
+ /*避免格式怪異*/
+ * {
+ 	margin:0;
+ 	padding:0;
+ }
+
+ a{
+	text-decoration:none;
+		color: white;
+		font-size:12px;
+	}
+
+div.top-ti {	
+	background-color: #1f2e2e;
+	text-align: center;
+
+}
+
+ .top-ti ul,li {
+	display:inline;
+	color:white ;
+	padding-left:  50px;
+	padding-right: 50px;
+
+ }
+
+.sub_ti h3,h4{
+	padding-left:  50px;
+}
+
+
+
+table.sum_ta{
+	width: 65%;
+	text-align: center;
+	margin: 0px auto; 
+}
+
+table.his_ta{
+	width: 65%;
+	text-align: center;
+	margin: 0px auto;
+	font-size: 12px;
+}
+.sum_ta  th,td{
+	height: 50px;
+
+}

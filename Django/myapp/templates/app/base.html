@@ -1,0 +1,25 @@
+{% load staticfiles %}
+<!-- 需另外加css路徑不然會無法套用 -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>mystock</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<!-- 套用css檔案，需再開頭加上load staticfiles -->
+<link href="{% static 'css/index.css' %}" rel="stylesheet">
+</head>
+<body>
+<div class='top-ti' >
+	<ul>
+		<li><a href="/" >帳務總覽</a></li>
+		<li><a href="/settings">設定</a></li>
+		<li><a href="/admin">管理</a></li>			
+		<li><a href="/accounts/logout">logout</a></li>
+	</ul>
+</div>
+</body>
+</html>
+{% block content%} {% endblock %}

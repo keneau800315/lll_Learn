@@ -1,0 +1,49 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>accounts login</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="" rel="stylesheet">
+    <style>
+      td {
+        padding: 5px
+      }
+    </style>
+</head>
+<body>
+    <br>
+    <br>
+    <h1 align="center">我的股市大富翁</h1>
+
+	<form method="post" action="/accounts/login">
+	{% csrf_token %}
+	<table align="center" style="margin-top:100px">
+	<tr> 
+	    <td>{{ form.username.label_tag }}</td>
+	    <td>{{ form.username }}</td>
+	</tr>
+	<tr>
+	    <td>{{ form.password.label_tag }}</td>
+	    <td>{{ form.password }}</td>
+	</tr>
+	<tr>
+
+	</tr>
+	<tr>
+	    <td></td>
+	    <td>
+	        <input type="submit" value="login" />
+	    </td>
+	</tr>
+	</table>
+    <input type="hidden" name="next" value="{{ next }}" />
+	</form>
+</body>
+</html>

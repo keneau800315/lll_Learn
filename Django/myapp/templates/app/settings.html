@@ -1,0 +1,51 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+
+<br>
+<div class="sub_ti">
+	<h3 >分類設定</h3>
+</div>
+
+
+<form  style="top:150px;left:10px;position:absolute;"action="/add_category" method="post">
+  {% csrf_token %}
+  <!-- name="add_category_name" 存取輸入值 -->
+  <input type="text" name="add_category_name">
+  <input type="submit" value="新增分類">
+</form>
+
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="sub_ti">
+	<h4 >分類</h4>
+</div>
+<br>
+<hr>
+
+<table class="sum_ta">
+	<tr>
+		<th>分類</th>
+	</tr>
+	{% for category in categories%}	
+	<tr>
+		<form  style="top:150px;left:10px;position:absolute;"action="/del_category/{{ category.category }}" method="post">
+			{% csrf_token %}
+		<td>
+			{{ category.category }}
+			<input type="submit" value="刪除">
+
+		</td>  			
+		</form>
+	</tr>
+	{%  endfor %}
+</table>
+
+
+
+{% endblock %}

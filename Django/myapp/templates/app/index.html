@@ -1,0 +1,114 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+
+<br>
+<div class="sub_ti">
+	<h3 >帳務總覽</h3>
+</div>
+<br>
+
+<table class="sum_ta">
+	<tr>
+		<th>收入</th>
+		<th>支出</th>
+		<th>存款</th>
+	</tr>
+	<tr>
+		<td>{{income}}</td>
+		<td>{{outcome}}</td>
+		<td>{{net}}</td>
+	</tr>
+</table>
+
+</div class="table-table">        
+          <form action="/add_record" method="post" >
+              {% csrf_token %}
+                <table class="table-record"  align="center">
+                
+                    <tr>
+						<th>日期</th>
+        				<th>分類</th>
+        				<th>股票代號</th>
+        				<th>買賣</th>
+        				<th>價格</th>
+        				<th>交易張數</th>
+        				<th>交割金額</th>
+
+                    </tr>
+
+                    <tr bgcolor="#758FDE">
+                    {% for field in record_form %}
+                    <td>{{field}}</td>
+
+                    {% endfor %}
+                    <td><input type="submit" value="新增"></td>
+                  </tr>
+     
+          </table>
+          </form>         
+        </div>
+
+<br>
+<br>
+<br>
+<div class="sub_ti">
+	<h4 >歷史紀錄</h4>
+</div>
+<br>
+<br>
+<table class="his_ta">
+	<tr>
+		<th>日期</th>
+        <th>分類</th>
+        <th>股票代號</th>
+        <th>買賣</th>
+        <th>價格</th>
+        <th>交易張數</th>
+        <th>交割金額</th>
+        <th></th>
+	</tr>
+	{% for record in records%}
+	<tr>
+		<!-- date:"Y-m-d"改變顯示方式 -->
+		<td>{{record.date | date:"Y-m-d"}}</td> 
+		<td>{{record.category}}</td>
+		<td>{{record.stockid}}</td>
+		<td>{{record.balance_type}}</td>
+		<td>{{record.price}}</td>
+		<td>{{record.share }}</td>
+		<td>{{record.amount}}</td>
+		<td>
+			<form method="post" action="/delete_record">
+				{% csrf_token %}
+				<input type="hidden" name="delete_val" value="{{record.id}}">
+				<input type="submit" name="" value="刪除">
+			</form>
+		</td>
+	</tr>
+	
+	
+	{% endfor %}
+<!-- 可以使用jquery套件 -->
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous">
+  
+ </script>
+ <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js'></script>
+
+<script >
+	$(function(){
+		$('#datepicker1').datepicker({
+			format:'yyyy-mm-dd'
+		});
+
+	})
+</script>
+
+</table>
+
+
+
+{% endblock %}

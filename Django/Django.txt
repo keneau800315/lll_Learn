@@ -1,0 +1,12 @@
+1.創建資料夾 myproject
+2.創建虛擬還境python -m venv myvenv
+3.啟動需虛擬環境 python myvenv\Script\activate
+4.安裝Django  pip install Django==1.9.10
+5.pip freeze檢查安裝是否成功
+6.開始創建project:django-admin startproject myproject .(可以把project看成一個網站)
+7.建立資料庫:python manage.py migrate
+8.建立app python manage.py startapp app
+9.開啟伺服器 python manage.py runserver
+10.創建完models.py的table後建立 migrates腳本 python manage.py makemigrations myapp(資料庫還沒被改變)
+11.執行腳本 python manage.py migrate myapp()
+12.創建後台管理帳號 python manage.py createsuperuser

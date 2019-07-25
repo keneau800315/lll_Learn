@@ -1,0 +1,252 @@
+CentOS-Extras
+yum install docker    安裝
+service docker status  查看狀況
+service docker start 安裝之後啟動 Docker 服務
+chkconfig docker on並讓它隨系統啟動自動載入。
+
+docker pull mongo 預設下載最新的
+
+
+docker pull mongo:3.4  指定下在3.4版
+docker images 列出所有本機已有的映像檔
+docker ps列出所有 Docker 容器
+
+
+使用影像檔ubuntu版本12.04 -it 互動模式  讓執行 bash
+sudo docker run -t -i ubuntu:12.04 /bin/bash
+
+
+
+docker commit 命令來提交更新後的副本
+
+$ docker run [OPTIONS] [Image 名稱]:[Image 版本] [執行指令]
+# [OPTIONS]:
+# -i, --interactive (互動模式)
+# -t, --tty         (配置一個終端機)
+# -d, --detach      (在背景執行)
+
+docker run -i -t ubuntu:14.04 bash
+
+
+
+#https://ithelp.ithome.com.tw/articles/10184657
+
+Start a mongo server instance
+docker run --name some-mongo -d mongo:tag
+
+docker exec -ti db27f40a2d76  bash
+最後在執行mongo你就可以執行mongodb的指令囉。
+
+show dbs
+
+
+#commit
+sudo docker commit -m "commit test" db27f40a2d76  mongo:3.4v2
+-m 指定提交的說明信息，跟我們使用的版本控制工具一樣
+
+# 查看正在執行的 containers
+$ docker ps
+
+# 查看所有的 containers
+$ docker ps -a
+
+對正在執行的 container 下執指令
+
+# ex:
+# 產生一個 container 在背景執行
+$ docker run -i -t -d ubuntu:14.04 bash
+
+# 查詢正在執行的 container
+$ docker ps
+$ docker exec -i -t [Container ID] bash
+$ exit
+
+
+# 啟動 docker container
+$ docker start [Container ID]
+
+# 停止 docker container
+$ docker stop [Container ID]
+
+# 重新啟動 docker container
+$ docker restart [Container ID]
+
+# 刪除 container
+$ docker rm [Container ID]
+
+
+
+
+# 刪除 image
+# 刪除 image 前必需將透過該 image 所產生的 container 移除
+$ docker rmi [Image ID]
+
+# ex:
+# 移除 hello-world image 所產生的 container
+$ docker ps -a
+$ docker rm [Container ID]
+$ docker ps -a
+
+# 移除 hello-world image
+$ docker images
+$ docker rmi [Image ID]
+$ docker images
+
+####################################
+## 小技巧 ##########################
+####################################
+
+# 停止所有的 containers
+$ docker stop $(docker ps -a -q) 
+
+# 刪除所有的 containers
+$ docker rm $(docker ps -a -q)
+
+# 刪除所有的 images
+$ docker rmi $(docker images -a -q)
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+利用 Dockerfile 建立映像檔
+
+新建一個目錄和一個 Dockerfile
+
+# This is a comment
+FROM ubuntu:14.04
+RUN apt-get -qq update
+
+sudo docker build -t="docker.io/ubuntu:test" .
+表示當前目錄
+-t 標記添加 tag
+
+
+https://ithelp.ithome.com.tw/articles/10191139
+
+如果要移除本地端的映像檔，可以使用 docker rmi 命令。注意 docker rm 命令是移除容器。
+
+
+
+
+
+#
+
+當利用 docker run 來建立容器時，Docker 在後臺執行的標準操作包括：
+
+檢查本地是否存在指定的映像檔，不存在就從公有倉庫下載
+利用映像檔建立並啟動一個容器
+分配一個檔案系統，並在唯讀的映像檔層外面掛載一層可讀寫層
+從宿主主機設定的網路橋界面中橋接一個虛擬埠到容器中去
+從位址池中設定一個 ip 位址給容器
+執行使用者指定的應用程式
+執行完畢後容器被終止
+docker stop
+docker start
+
+進入容器
+ docker exec -ti ?? bash
+ 匯出容器
+如果要匯出本地某個容器，可以使用 docker export 命令。
+ sudo docker export 7691a814370e > ubuntu.tar
+ 
+ 可以使用 docker rm 來刪除一個處於終止狀態的容器。 例如
+ 
+ 
+ 
+ docker login 
+ 登入帳號
+ 
+ docker search centos
+ 收巡
+ 
+ #外部存取容器
+ 
+ docker run -d -P training/webapp python app.py
+ 
+ 本地主機的 49155 被映射到了容器的 5000 連接埠。此時連結本機的 49155 連接埠即可連結容器內 web 應用提供的界面
+ 0.0.0.0:49155->5000/tcp 
+http://0.0.0.0:49155   可以找到網頁
+
+ -p（小寫的）則可以指定要映射的連接埠，並且在一個指定連接埠上只可以綁定一個容器。支援的格式有 ip:hostPort:containerPort | ip::containerPort | hostPort:containerPort。
+ 格式本地的 5000 連接埠映射到容器的 5000 連接埠，可以執行
+ http://0.0.0.0:5000   可以找到網頁
+ docker run -d -p 5000:5000 training/webapp python app.py
+ 
+ 映射到指定位址的指定連接埠
+ 比如 localhost 位址 127.0.0.1
+ 
+ 查看映射連接埠配置
+ CONTAINER ID
+ 
+ docker port nostalgic_morse 5000
+ 
+ 綁定多哥街口
+ udo docker run -d -p 5000:5000  -p 3000:80 training/webapp python app.py
+ 
+ 
+ 容器互聯
+ 使用 --name 標記可以為容器自定義命名
+容器互聯
+使用 --link 參數可以讓容器之間安全的進行互動。
+
+下面先建立一個新的資料庫容器。
+
+$ sudo docker run -d --name db training/postgres
+刪除之前建立的 web 容器
+
+$ docker rm -f web
+然後建立一個新的 web 容器，並將它連接到 db 容器
+
+$ sudo docker run -d -P --name web --link db:db training/webapp python app.py
+
+--link 參數的格式為 --link name:alias，其中 name 是要連接的容器名稱，alias 是這個連接的別名。
+
+Step 2 — Install Docker Compose
+Install Extra Packages for Enterprise Linux
+
+$ sudo yum install epel-release
+Install python-pip
+
+$ sudo yum install -y python-pip
+Then install Docker Compose:
+
+$ sudo pip install docker-compose
+You will also need to upgrade your Python packages on CentOS 7 to get docker-compose to run successfully:
+
+$ sudo yum upgrade python*
+To verify a successful Docker Compose installation, run:
+
+$ docker-compose version
+
+
+
+AttributeError: 'module' object has no attribute 'GSSException'
+
+解决方法：yum install python-paramiko -y
+
+ifconfig
+version: '2'
+services:
+  spark-master:
+    image: bde2020/spark-master:2.4.1-hadoop2.7
+    container_name: spark-master
+    ports:
+      - "8080:8080"
+      - "7077:7077"
+    environment:
+      - INIT_DAEMON_STEP=setup_spark
+  spark-worker-1:
+    image: bde2020/spark-worker:2.4.1-hadoop2.7
+    container_name: spark-worker-1
+    depends_on:
+      - spark-master
+    ports:
+      - "8081:8081"
+    environment:
+      - "SPARK_MASTER=spark://spark-master:7077"
+	  
+	  
+spark 一件部屬	  
+http://weinan.io/2018/05/04/spark.html
